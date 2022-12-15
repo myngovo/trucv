@@ -1,11 +1,15 @@
 import React from 'react'
 import { Burger } from '@mantine/core'
 import ColorSchemeControl from '../HeaderControl/ColorSchemeControl'
+import FeatureControl from '../HeaderControl/FeatureControl'
 import Logo from '../Logo/Logo'
 import useStyles from './HeaderMobile.styles'
+import { useSelector } from 'react-redux'
 
 const HeaderMobile = ({ navbarOpened, toggleNavbar }) => {
   const { classes } = useStyles()
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   return (
     <div className={classes.header}>
@@ -17,9 +21,15 @@ const HeaderMobile = ({ navbarOpened, toggleNavbar }) => {
           aria-label='Toggle navbar'
         />
         <div className={classes.logo}>
-          <Logo size={26} />
+          <Logo size={24} />
         </div>
-        <ColorSchemeControl />
+        {userInfo && (
+          <>
+            {' '}
+            <FeatureControl />
+            {userInfo.name}
+          </>
+        )}
       </div>
     </div>
   )

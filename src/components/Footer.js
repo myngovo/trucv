@@ -101,7 +101,7 @@ const useStyles = createStyles((theme) => ({
     color:
       theme.colorScheme === 'dark'
         ? theme.colors.dark[1]
-        : theme.colors.gray[6],
+        : theme.colors.dark[6],
     fontSize: theme.fontSizes.sm,
     paddingTop: 3,
     paddingBottom: 3,
@@ -166,7 +166,13 @@ const Footer = () => {
   })
 
   return (
-    <Foot p='md' height={250}>
+    <Foot
+      p='md'
+      height={250}
+      sx={(theme) => ({
+        backgroundImage: theme.fn.linearGradient(45, '#7ac2c9', '#be94c6'),
+      })}
+    >
       <Container className={classes.inner}>
         <div className={classes.logo}>
           <Text size='xs' color='dimmed' className={classes.description}>

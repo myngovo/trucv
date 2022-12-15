@@ -20,6 +20,7 @@ import {
   Space,
   Popover,
   List,
+  SegmentedControl,
 } from '@mantine/core'
 import {
   IconUserCheck,
@@ -31,6 +32,7 @@ import {
   IconGripVertical,
   IconTableOptions,
   IconBulb,
+  IconTemplate,
 } from '@tabler/icons'
 import { useForm } from '@mantine/form'
 import { RichTextEditor } from '@mantine/rte'
@@ -42,6 +44,10 @@ import svgImageCv from '../cv.svg'
 import { Link } from 'react-router-dom'
 import svgImageDownload from '../burner.svg'
 import PageSection from './PageSection/PageSection'
+import ResumeDownload from './ResumeDownload'
+import template1 from '../templates/template 1.png'
+import template2 from '../templates/template 2.png'
+import { BrowserView, MobileView } from 'react-device-detect'
 
 const Home = () => {
   const [active, setActive] = useState(0)
@@ -95,6 +101,9 @@ const Home = () => {
           body: '',
         },
       ],
+      template: {
+        template: 'template 2',
+      },
     },
     validate: (values) => {
       if (active === 0) {
@@ -134,7 +143,7 @@ const Home = () => {
       if (form.validate().hasErrors) {
         return current
       }
-      return current < 6 ? current + 1 : current
+      return current < 7 ? current + 1 : current
     })
   }
 
@@ -314,13 +323,13 @@ const Home = () => {
             <IconGripVertical size={18} />
           </Center>
           <TextInput
-            placeholder='Enter Title'
-            label='Custom Title'
+            placeholder='E.g Referee'
+            label='Section Heading'
             radius='xl'
             {...form.getInputProps(`custom.${index}.title`)}
           />
           <RichTextEditor
-            placeholder={'Type Something'}
+            placeholder={'Type Section Body'}
             {...form.getInputProps(`custom.${index}.body`)}
             controls={[
               ['bold', 'italic', 'underline', 'link'],
@@ -347,17 +356,16 @@ const Home = () => {
     setOpened(true)
   }
 
+  //handle continue to download
+
+  const handleDownload = () => {
+    setOpened(false)
+  }
+
   return (
     <>
       <Container size='xl' pt='xl'>
         <PageSection title='Put your best foot forward with a job-winning CV'></PageSection>
-        {/*  <Title order={3} align='center' pt='lg'>
-          Put your best foot forward with a{' '}
-          <Text color='blue' inherit component='span'>
-            job-winning
-          </Text>{' '}
-          CV
-        </Title> */}
 
         <Stepper
           active={active}
@@ -375,9 +383,57 @@ const Home = () => {
               <Title order={5} color='dimmed' italic pb='lg'>
                 What’s the best way for employers to contact you?
               </Title>
-              <Button leftIcon={<IconBulb />} variant='white' color='orange'>
-                Tips
-              </Button>
+              <Popover
+                width={500}
+                position='bottom'
+                withArrow
+                shadow='md'
+                styles={(theme) => ({
+                  dropdown: {
+                    background: theme.fn.linearGradient(
+                      45,
+                      '#7ac2c9',
+                      '#be94c6'
+                    ),
+                  },
+                })}
+              >
+                <Popover.Target>
+                  <Button
+                    leftIcon={<IconBulb />}
+                    variant='white'
+                    color='orange'
+                  >
+                    Tips
+                  </Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <Title order={5}>Knowledge Tidbits</Title>
+                  <List>
+                    <List.Item>
+                      Choose a CV template that optimizes the discoverability of
+                      your contacts.
+                    </List.Item>
+
+                    <List.Item>
+                      Choose an easy to read font, no fancy stuff, no BS.
+                    </List.Item>
+
+                    <List.Item>
+                      Don’t leave lots of white spaces in your CV
+                    </List.Item>
+
+                    <List.Item>
+                      Remember, a strong Linkedin profile complements your CV
+                    </List.Item>
+                  </List>
+                  <Text>
+                    {' '}
+                    DID YOU KNOW? 21% of applicants share CVs that include
+                    unreadable graphics and charts.
+                  </Text>
+                </Popover.Dropdown>
+              </Popover>
             </Group>
 
             <Grid grow py={5}>
@@ -487,34 +543,25 @@ const Home = () => {
                   </Button>
                 </Popover.Target>
                 <Popover.Dropdown>
-                  <Title order={5}>What to write about</Title>
+                  <Title order={5}>Knowledge Tidbits</Title>
                   <List>
-                    <List.Item>Experience</List.Item>
-                    <Text>
-                      Include your total as well as relevant years of
-                      experience. Example: 7 years of total experience, with 4
-                      years in Budget Planning.
-                    </Text>
-                    <List.Item>Skills</List.Item>
-                    <Text>
-                      List the most relevant skills that match the job you are
-                      applying for. Example: Experienced UI developer trained in
-                      HTML5, CSS3 and Javascript.
-                    </Text>
-                    <List.Item>Career highlights</List.Item>
-                    <Text>
-                      List the most notable career achievement and impact
-                      created. Example: Delivered 150% on sales targets for 3
-                      consecutive years.
-                    </Text>
-                  </List>
-                  <Title order={5}>How to write</Title>
-                  <List>
-                    <List.Item>Keep it to 3 or 4 bullet points</List.Item>
                     <List.Item>
-                      Use action verbs: Built, Conceptualized, Led, Drove, etc.
+                      Include key competencies from your experience.
+                    </List.Item>
+
+                    <List.Item>
+                      Remember to also sprinkle keywords from the job
+                      description
+                    </List.Item>
+
+                    <List.Item>
+                      Tailor your CV for each job to show intent and commitment
                     </List.Item>
                   </List>
+                  <Text>
+                    DID YOU KNOW? Omitting keywords from the job description
+                    increases the tossability of your CV.
+                  </Text>
                 </Popover.Dropdown>
               </Popover>
             </Group>
@@ -563,35 +610,22 @@ const Home = () => {
                       </Button>
                     </Popover.Target>
                     <Popover.Dropdown>
-                      <Title order={5}>EXPERT INSIGHTS</Title>
-                      <Text>
-                        Hiring managers will scan this information looking for
-                        career progression, i.e.- how long you've stayed in each
-                        job, your growth and promotions, whether you've worked
-                        for similar companies and whether you have gaps in
-                        employment.
-                      </Text>
+                      <Title order={5}>Knowledge Tidbits</Title>
+
                       <List>
                         <List.Item>
-                          Enter basic information about your previous jobs so
-                          employers can see where you've worked.
+                          Highlight the deliverables required and how you
+                          achieved them.
                         </List.Item>
 
                         <List.Item>
-                          Don't abbreviate job titles. Using your full title
-                          looks more professional and is easier for managers to
-                          understand.
+                          Make use of impact statements and metrics to show
+                          impact e.g Launched a loyalty programme in my first
+                          year that reduced churn by 30%.
                         </List.Item>
 
                         <List.Item>
-                          Include start and end dates for each position. Leaving
-                          off dates will make employers think you're hiding
-                          something.
-                        </List.Item>
-                        <List.Item>
-                          Can't remember your exact start date or job title?
-                          Don't worry - enter your best guess and come back to
-                          edit it later, once you've confirmed the information.
+                          Use bullet structure and include keywords from the JD.
                         </List.Item>
                       </List>
                     </Popover.Dropdown>
@@ -628,10 +662,54 @@ const Home = () => {
           </Stepper.Step>
           <Stepper.Step label='Education' icon={<IconSchool size={18} />}>
             {educationFields.length > 0 ? (
-              <Title order={5} color='dimmed' italic pb='lg'>
-                List your Education details starting with your recent
-                qualification
-              </Title>
+              <Group position='apart' spacing='sm'>
+                <Title order={5} color='dimmed' italic pb='lg'>
+                  List your Education details starting with your recent
+                  qualification
+                </Title>
+                <Popover
+                  width={500}
+                  position='bottom'
+                  withArrow
+                  shadow='md'
+                  styles={(theme) => ({
+                    dropdown: {
+                      background: theme.fn.linearGradient(
+                        45,
+                        '#7ac2c9',
+                        '#be94c6'
+                      ),
+                    },
+                  })}
+                >
+                  <Popover.Target>
+                    <Button
+                      leftIcon={<IconBulb />}
+                      variant='white'
+                      color='orange'
+                    >
+                      Tips
+                    </Button>
+                  </Popover.Target>
+                  <Popover.Dropdown>
+                    <Title order={5}>Knowledge Tidbits</Title>
+
+                    <List>
+                      <List.Item>
+                        Never put education before experience.
+                      </List.Item>
+
+                      <List.Item>
+                        Do not overlook the small things like grammar and font
+                      </List.Item>
+
+                      <List.Item>
+                        Use Tru CV Review to validate the strength of your CV
+                      </List.Item>
+                    </List>
+                  </Popover.Dropdown>
+                </Popover>
+              </Group>
             ) : (
               <Text color='dimmed' align='center'>
                 No Education Listed...
@@ -658,10 +736,60 @@ const Home = () => {
           </Stepper.Step>
           <Stepper.Step label='Skills' icon={<IconSubtask />}>
             {skillsFields.length > 0 ? (
-              <Title order={5} color='dimmed' italic pb='lg'>
-                List Skills that correspond with key words from the job
-                description
-              </Title>
+              <Group position='apart' spacing='sm'>
+                <Title order={5} color='dimmed' italic pb='lg'>
+                  List Skills that correspond with key words from the job
+                  description
+                </Title>
+                <Popover
+                  width={500}
+                  position='bottom'
+                  withArrow
+                  shadow='md'
+                  styles={(theme) => ({
+                    dropdown: {
+                      background: theme.fn.linearGradient(
+                        45,
+                        '#7ac2c9',
+                        '#be94c6'
+                      ),
+                    },
+                  })}
+                >
+                  <Popover.Target>
+                    <Button
+                      leftIcon={<IconBulb />}
+                      variant='white'
+                      color='orange'
+                    >
+                      Tips
+                    </Button>
+                  </Popover.Target>
+                  <Popover.Dropdown>
+                    <Title order={5}>Knowledge Tidbits</Title>
+
+                    <List>
+                      <List.Item>
+                        Show evidence of the skill and how it will be useful to
+                        your potential employer.
+                      </List.Item>
+
+                      <List.Item>
+                        Include keywords from the job description
+                      </List.Item>
+
+                      <List.Item>
+                        Use action verbs e.g. bolstered, gained or surpassed to
+                        show increase.
+                      </List.Item>
+                    </List>
+                    <Text>
+                      DID YOU KNOW? Recruiters use Applicant Tracking Systems
+                      (ATS) to sift through 100s of CVs
+                    </Text>
+                  </Popover.Dropdown>
+                </Popover>
+              </Group>
             ) : (
               <Text color='dimmed' align='center'>
                 No Skill Listed...
@@ -716,6 +844,58 @@ const Home = () => {
               </Group>
             </Box>
           </Stepper.Step>
+          <Stepper.Step label='SeLect Template' icon={<IconTemplate />}>
+            <SegmentedControl
+              transitionDuration={500}
+              transitionTimingFunction='linear'
+              orientation='vertical'
+              color='orange'
+              fullWidth
+              radius={20}
+              data={[
+                {
+                  value: 'template 1',
+                  label: (
+                    <div
+                      style={{
+                        width: 240,
+
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                      }}
+                    >
+                      <Image
+                        radius='md'
+                        src={template1}
+                        alt='Template 1'
+                        caption='Template 1'
+                      />
+                    </div>
+                  ),
+                },
+                {
+                  value: 'template 2',
+                  label: (
+                    <div
+                      style={{
+                        width: 240,
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                      }}
+                    >
+                      <Image
+                        radius='md'
+                        src={template2}
+                        alt='Template 2'
+                        caption='Template 2'
+                      />
+                    </div>
+                  ),
+                },
+              ]}
+              {...form.getInputProps('template.template')}
+            />
+          </Stepper.Step>
           <Stepper.Completed>
             {' '}
             <Title order={4} align='center' pb={2}>
@@ -733,7 +913,7 @@ const Home = () => {
                 onClick={bunnerHandler}
                 to='/pdf_review'
               >
-                Download
+                Preview
               </Button>
             </Center>
           </Stepper.Completed>
@@ -744,7 +924,7 @@ const Home = () => {
               Back
             </Button>
           )}
-          {active !== 6 && <Button onClick={nextStep}>Next step</Button>}
+          {active !== 7 && <Button onClick={nextStep}>Next step</Button>}
         </Group>
         <Space h='md' />
         {/*  <Text size='sm' weight={500} mt='md'>
@@ -786,9 +966,16 @@ const Home = () => {
               <Button color='orange' radius='xl'>
                 Subscribe!
               </Button>
-              <Button radius='xl' component={Link} to='/pdf_Review'>
-                Continue to dowload
-              </Button>
+              <BrowserView>
+                <Button radius='xl' component={Link} to='/pdf_Review'>
+                  Continue to preview
+                </Button>
+              </BrowserView>
+              <MobileView>
+                <Button radius='xl' component={Link} to='/pdf_Review'>
+                  Continue to download
+                </Button>
+              </MobileView>
             </Stack>
           </>
         </Modal>
