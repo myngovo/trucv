@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import {
-  Badge,
   Center,
   Container,
   LoadingOverlay,
+  Notification,
   Paper,
-  SimpleGrid,
   Space,
 } from '@mantine/core'
 import useStyles from './Report.styles'
@@ -17,6 +16,7 @@ import PageSection from '../../PageSection/PageSection'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 import Stats from './Stats/Stats'
 import Feedback from './Feedback/Feedback'
+import Message from '../../../components/Message'
 
 const Report = () => {
   const openRef = useRef(null)
@@ -32,6 +32,7 @@ const Report = () => {
   const [total, setTotal] = useState('')
   const [score, setScore] = useState({})
   const [skills, setSkills] = useState([])
+  const [notification, setNotification] = useState('')
 
   const changeHandler = (acceptedFiles) => {
     setSelectedFile(acceptedFiles[0])
@@ -64,6 +65,22 @@ const Report = () => {
     } catch (error) {
       console.error(error)
       setVisible(false)
+    }
+  }
+
+  // notification pop up for cv review users.
+
+  const getNotification = function grade(score) {
+    if (score >= 70 && score <= 100) {
+      setNotification('You are in the Top 1% of all CVs reviewed !')
+    } else if (score >= 60 && score <= 70) {
+      setNotification('You are in the Top 10% of all CVs reviewed !')
+    } else if (score >= 50 && score <= 60) {
+      setNotification('You are in the Top 20% of all CVs reviewed !')
+    } else if (score >= 40 && score <= 50) {
+      setNotification('You are in the Top 30% of all CVs reviewed !')
+    } else {
+      setNotification('You are in the Top 50% of all CVs reviewed !')
     }
   }
 
@@ -102,6 +119,8 @@ const Report = () => {
         },
       ],
     })
+
+    getNotification(all)
   }, [data])
 
   return (
@@ -199,6 +218,20 @@ const Report = () => {
       <PageSection title='Tru Cv Review Summary '>
         {data ? (
           <>
+            <Space h='xl' />
+            {notification && (
+              <Notification
+                color='#91b2c7'
+                sx={(theme) => ({
+                  backgroundColor: theme.colors.cyan[1],
+                  '&:hover': {
+                    backgroundColor: theme.colors.cyan[3],
+                  },
+                })}
+              >
+                {notification}
+              </Notification>
+            )}
             <Space h='xl' />
             <Feedback
               title={`Your Resume Scored ${score.total} out of 100`}

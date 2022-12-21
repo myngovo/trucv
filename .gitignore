@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-/extract-text-from-pdf-js/node_modules
 /.venv
 /server
 

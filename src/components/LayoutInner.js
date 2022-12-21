@@ -37,6 +37,8 @@ const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'))
 
 const TransactionList = lazy(() => import('../pages/Dashboard/TransactionList'))
 
+const Login2 = lazy(() => import('../pages/Login2.js'))
+
 const LayoutInner = ({ children }) => {
   let location = useLocation()
   const navbarCollapsed = useMediaQuery(`(max-width: ${NAVBAR_BREAKPOINT}px)`)
@@ -70,6 +72,7 @@ const LayoutInner = ({ children }) => {
             <Suspense fallback={<Loader />}>
               <Routes>
                 <Route path='/login' element={<Login />} />
+                <Route path='/login2' element={<Login2 />} />
                 <Route path='/signin' element={<Signin />} />
                 <Route path='/' element={<HomePage />} />
                 <Route path='/pdf_Review' element={<PdfReview />} />
