@@ -13,12 +13,14 @@ import {
   Title,
   Modal,
   Radio,
+  Group,
+  Popover,
 } from '@mantine/core'
-import { IconCircleCheck, IconReceipt2 } from '@tabler/icons'
+import { IconCircleCheck, IconInfoCircle, IconReceipt2 } from '@tabler/icons'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import PageSection from './PageSection/PageSection'
-import { useToggle } from '@mantine/hooks'
+import { useToggle, useDisclosure } from '@mantine/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserDetails } from '../actions/userActions'
@@ -30,7 +32,6 @@ import 'react-phone-input-2/lib/style.css'
 import { useForm } from '@mantine/form'
 import axios from 'axios'
 
-
 const Subscription = () => {
   const dispatch = useDispatch()
   const auth = useAuth()
@@ -38,6 +39,7 @@ const Subscription = () => {
   const [opened, setOpened] = useState(false)
   const [token, setToken] = useState('')
   const [isLoaded, setIsLoaded] = useState(false)
+  const [opener, { close, open }] = useDisclosure(false)
 
   const form = useForm({
     initialValues: {
@@ -236,6 +238,35 @@ const Subscription = () => {
                     <List.Item>2 CV samples / month</List.Item>
                   </List>
                 )}
+              </Center>
+              <Center>
+                <Group pt='xl'>
+                  <Text>Paid but no access ?</Text>
+                  <Popover
+                    width={200}
+                    position='bottom'
+                    withArrow
+                    shadow='md'
+                    opened={opener}
+                  >
+                    <Popover.Target>
+                      <ThemeIcon
+                        color='orange'
+                        onMouseEnter={open}
+                        onMouseLeave={close}
+                      >
+                        <IconInfoCircle />
+                      </ThemeIcon>
+                    </Popover.Target>
+                    <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
+                      <Text size='sm'>
+                        Do not Panic . Logout and Login again with the
+                        credentials you subscribed with. Still not working ?
+                        Call us on +254705043366 and we will help you
+                      </Text>
+                    </Popover.Dropdown>
+                  </Popover>
+                </Group>
               </Center>
             </>
           )}

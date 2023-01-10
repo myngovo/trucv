@@ -28,6 +28,7 @@
     "dayjs": "^1.11.5",
     "embla-carousel-react": "^7.0.3",
     "office-text-extractor": "^2.0.0",
+    "openai": "^3.1.0",
     "pdf-parse": "^1.1.1",
     "pdf-to-text": "0.0.7",
     "pdfmake": "^0.2.5",
