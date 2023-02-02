@@ -10,7 +10,10 @@ import {
   orderPayMpesaCallbackReducer,
 } from './reducers/payReducers'
 
-import { transactionListReducer } from './reducers/transactionReducers'
+import {
+  transactionListReducer,
+  transactionListMyReducer,
+} from './reducers/transactionReducers'
 
 import {
   userLoginReducer,
@@ -20,6 +23,7 @@ import {
   userListReducer,
   userDeleteReducer,
   userUpdateReducer,
+  userForgotPasswordReducer
 } from './reducers/userReducers'
 
 const reducer = combineReducers({
@@ -33,6 +37,9 @@ const reducer = combineReducers({
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
   transactionList: transactionListReducer,
+  transactionListMy: transactionListMyReducer,
+  userForgotPassword:  userForgotPasswordReducer
+  
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

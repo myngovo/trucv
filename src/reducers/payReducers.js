@@ -9,7 +9,7 @@ import {
   PAY_MPESA_SUCCESS,
 } from '../constants/payConstants'
 
-export const orderPayMpesaReducer = (state = {}, action) => {
+export const orderPayMpesaReducer = (state = { transaction: {} }, action) => {
   switch (action.type) {
     case PAY_MPESA_REQUEST:
       return {
@@ -18,7 +18,7 @@ export const orderPayMpesaReducer = (state = {}, action) => {
     case PAY_MPESA_SUCCESS:
       return {
         loading: false,
-        success: true,
+        transaction: action.payload,
       }
     case PAY_MPESA_FAIL:
       return {

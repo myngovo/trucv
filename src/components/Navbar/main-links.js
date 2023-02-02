@@ -36,7 +36,7 @@ export default [
     icon: IconWriting,
   },
   {
-    to: 'login/',
+    to: '/auth/get-started',
     label: 'Sign Up',
     color: DEFAULT_THEME.colors.indigo[5],
     icon: IconLogin,

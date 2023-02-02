@@ -11,7 +11,6 @@ import axios from 'axios'
 
 axios.defaults.baseURL = 'https://tru-cv-backend.onrender.com'
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>

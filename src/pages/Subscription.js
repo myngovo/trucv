@@ -15,6 +15,8 @@ import {
   Radio,
   Group,
   Popover,
+  SimpleGrid,
+  Select,
 } from '@mantine/core'
 import { IconCircleCheck, IconInfoCircle, IconReceipt2 } from '@tabler/icons'
 import React, { useEffect, useState } from 'react'
@@ -238,6 +240,25 @@ const Subscription = () => {
                     <List.Item>2 CV samples / month</List.Item>
                   </List>
                 )}
+              </Center>
+              <Center>
+                <SimpleGrid cols={3} p='xl'>
+                  <Button color='orange'>Cv Builder</Button>
+                  <Button color='teal'>Cv Review</Button>
+                  <Button>Cv Sample</Button>
+                </SimpleGrid>
+                <SimpleGrid cols={1} p='xl'>
+                  <Select
+                    label='Your favorite framework/library'
+                    placeholder='Pick one'
+                    data={[
+                      { value: 'react', label: 'React' },
+                      { value: 'ng', label: 'Angular' },
+                      { value: 'svelte', label: 'Svelte' },
+                      { value: 'vue', label: 'Vue' },
+                    ]}
+                  />
+                </SimpleGrid>
               </Center>
               <Center>
                 <Group pt='xl'>

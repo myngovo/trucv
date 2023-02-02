@@ -9,7 +9,7 @@ import {
 } from '../constants/payConstants'
 
 export const lipaNaMpesa =
-  (phone, amount, email) => async (dispatch, getState) => {
+  (phone, amount, subscription) => async (dispatch, getState) => {
     try {
       dispatch({
         type: PAY_MPESA_REQUEST,
@@ -18,6 +18,8 @@ export const lipaNaMpesa =
       const {
         userLogin: { userInfo },
       } = getState()
+
+      const id = userInfo._id
 
       const config = {
         headers: {
@@ -29,9 +31,7 @@ export const lipaNaMpesa =
       const { data } = await axios.get(
         '/api/mpesa/stk',
         {
-          params: { phone },
-          amount,
-          email,
+          params: { phone, amount, id, subscription },
         },
         config
       )
@@ -40,7 +40,10 @@ export const lipaNaMpesa =
         type: PAY_MPESA_SUCCESS,
         payload: data,
       })
+
+      console.log(data)
     } catch (error) {
+      console.log(error)
       const message =
         error.response && error.response.data.message
           ? error.response.data.message

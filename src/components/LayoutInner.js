@@ -13,8 +13,11 @@ import Footer from './Footer'
 import { RequireAuth } from './RequireAuth'
 
 const HomePage = lazy(() => import('../pages/HomePage/HomePage'))
-const Login = lazy(() => import('../pages/Login'))
-const Signin = lazy(() => import('../pages/Signin.js'))
+const Login = lazy(() => import('../pages/Auth/LogIn'))
+const Signin = lazy(() => import('../pages/Signin'))
+const Payment = lazy(() => import('../pages/Auth/Payment'))
+const GetStarted = lazy(() => import('../pages/Auth/GetStarted'))
+const ForgotPassword = lazy(() => import('../pages/Auth/ForgotPassword'))
 const Notfound = lazy(() => import('../pages/Notfound'))
 const PdfReview = lazy(() => import('../pages/PdfReview'))
 const Report = lazy(() => import('../pages/CvReview/Report/Report'))
@@ -37,7 +40,7 @@ const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'))
 
 const TransactionList = lazy(() => import('../pages/Dashboard/TransactionList'))
 
-const Login2 = lazy(() => import('../pages/Login2.js'))
+// const Login2 = lazy(() => import('../pages/Login2.js'))
 
 const LayoutInner = ({ children }) => {
   let location = useLocation()
@@ -71,8 +74,14 @@ const LayoutInner = ({ children }) => {
           <AuthProvider>
             <Suspense fallback={<Loader />}>
               <Routes>
-                <Route path='/login' element={<Login />} />
-                <Route path='/login2' element={<Login2 />} />
+                <Route path='/auth/get-started' element={<GetStarted />} />
+                <Route path='/auth/login' element={<Login />} />
+                <Route path='/auth/signin' element={<Signin />} />
+                <Route path='/auth/payment' element={<Payment />} />
+                <Route
+                  path='/auth/forgot-password'
+                  element={<ForgotPassword />}
+                />
                 <Route path='/signin' element={<Signin />} />
                 <Route path='/' element={<HomePage />} />
                 <Route path='/pdf_Review' element={<PdfReview />} />
